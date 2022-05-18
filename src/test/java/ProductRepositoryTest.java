@@ -16,14 +16,20 @@ class ProductRepositoryTest {
         repository.save(book1);
         repository.save(book2);
         repository.save(smartphone1);
-        repository.save(smartphone2);
     }
 
     @Test
     public void shouldSaveOneItem() {
+        repository.save(smartphone2);
         Product[] expected = new Product[]{book1, book2, smartphone1, smartphone2};
         Product[] actual = repository.findAll();
         assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSaveOneItemAlreadyExists() {
+        repository.save(smartphone1);
+        Assertions.assertThrows(AlreadyExistsException.class, () -> repository.save(smartphone1));;
     }
 
     @Test
